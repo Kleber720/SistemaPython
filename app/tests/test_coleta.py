@@ -60,3 +60,9 @@ def test_timeout_pokemon(mocker):
 
     with pytest.raises(ErroDeApi, match="Falha na conexão"):
         buscar_pokemon("pikachu")
+
+def test_extrair_dados_sem_stats_levanta_keyerror():
+    payload_incompleto = {"id": 1, "name": "bulbasaur", "types": []}
+
+    with pytest.raises(KeyError):
+        extrair_dados(payload_incompleto)
