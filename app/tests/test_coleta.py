@@ -23,7 +23,7 @@ def test_extrair_dados():
     assert dados == {
         "id": 25,
         "nome": "pikachu",
-        "tipos": [{"type": {"name": "eletric"}}],
+        "tipos": ["eletric"],
         "total_stats": 320,
     }
 
@@ -47,4 +47,16 @@ def test_buscar_pokemon_erro_de_conexao(mocker):
         side_effect=requests.ConnectionError("sem rede"),
     )
     with pytest.raises(ErroDeApi):
+        buscar_pokemon("pikachu")
+
+def test_buscar_pokemon_status_500_levanta_erro_de_api(mocker):
+    mocker.patch("app.coleta.requests.get", return_value=mocker.Mock(status_code=500))
+
+    with pytest.raises(ErroDeApi, match="500"):
+        buscar_pokemon("pikachu")
+
+def test_timeout_pokemon(mocker):
+    mocker.patch("app.coleta.requests.get", side_effect=requests.Timeout())
+
+    with pytest.raises(ErroDeApi, match="Falha na conexão"):
         buscar_pokemon("pikachu")
