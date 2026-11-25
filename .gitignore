@@ -1,6 +1,18 @@
-# created by virtualenv automatically
+# Virtual environment & Python caches
 .venv/
+venv/
 __pycache__/
+*.py[cod]
 .pytest_cache/
-.idea/
+.coverage
+
+# Environment variables
 .env
+.env.*
+!.env.example
+
+# IDEs & OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
